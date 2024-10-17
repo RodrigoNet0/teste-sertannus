@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'; 
 
 export default function Login() {
-  const [isRegistering, setIsRegistering] = useState(true); 
+  const [isRegistering, setIsRegistering] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); 
 
   const handleRegister = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -28,6 +30,9 @@ export default function Login() {
 
     if (email === storedEmail && password === storedPassword) {
       toast.success('Login realizado com sucesso!');
+      setTimeout(() => {
+        navigate('/Inventory');
+      }, 1000); 
     } else {
       toast.error('Credenciais inválidas. Verifique seu email e senha.');
     }
@@ -35,7 +40,7 @@ export default function Login() {
 
   return (
     <>
-      <ToastContainer /> 
+      <ToastContainer />
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -92,6 +97,7 @@ export default function Login() {
                 {isRegistering ? 'Cadastrar' : 'Entrar'}
               </button>
             </div>
+           
           </form>
         </div>
       </div>
