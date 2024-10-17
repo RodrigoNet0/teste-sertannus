@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Item {
   nome: string;
   descricao: string;
-  quantidade: number; 
+  quantidade: number;
   categoria: string;
   imagem: string;
 }
 
 function Header() {
   const [isAdding, setIsAdding] = useState(false);
-  const [items, setItems] = useState<Item[]>([]); 
+  const [items, setItems] = useState<Item[]>([]);
   const [newItem, setNewItem] = useState<Item>({
     nome: '',
     descricao: '',
-    quantidade: 0, 
+    quantidade: 0,
     categoria: '',
     imagem: ''
   });
+  const [isEditing, setIsEditing] = useState<number | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null); 
 
   useEffect(() => {
     const storedItems = localStorage.getItem('items');
@@ -34,7 +38,7 @@ function Header() {
     const { name, value } = e.target;
     setNewItem((prevItem) => ({
       ...prevItem,
-      [name]: name === 'quantidade' ? Number(value) : value 
+      [name]: name === 'quantidade' ? Number(value) : value
     }));
   };
 
@@ -53,9 +57,23 @@ function Header() {
   };
 
   const handleAddItem = () => {
-    const updatedItems = [...items, newItem];
-    setItems(updatedItems);
-    localStorage.setItem('items', JSON.stringify(updatedItems));
+    if (!newItem.nome || !newItem.descricao || !newItem.quantidade || !newItem.categoria || !newItem.imagem) {
+      toast.error('Preencha todos os campos!');
+      return;
+    }
+
+    if (isEditing !== null) {
+      const updatedItems = items.map((item, index) =>
+        index === isEditing ? newItem : item
+      );
+      setItems(updatedItems);
+      setIsEditing(null);
+    } else {
+      const updatedItems = [...items, newItem];
+      setItems(updatedItems);
+    }
+
+    localStorage.setItem('items', JSON.stringify(items));
     setNewItem({
       nome: '',
       descricao: '',
@@ -64,6 +82,26 @@ function Header() {
       imagem: ''
     });
     setIsAdding(false);
+  };
+
+  const handleEditItem = (index: number) => {
+    setNewItem(items[index]);
+    setIsAdding(true);
+    setIsEditing(index);
+  };
+
+  const handleDeleteItem = (index: number) => {
+    const updatedItems = items.filter((_, i) => i !== index);
+    setItems(updatedItems);
+    localStorage.setItem('items', JSON.stringify(updatedItems));
+  };
+
+  const handleViewDetails = (item: Item) => {
+    setSelectedItem(item); 
+  };
+
+  const closeModal = () => {
+    setSelectedItem(null); 
   };
 
   return (
@@ -132,7 +170,7 @@ function Header() {
             className="bg-blue-500 text-white p-2 rounded"
             onClick={handleAddItem}
           >
-            Salvar Item
+            {isEditing !== null ? 'Atualizar Item' : 'Salvar Item'}
           </button>
         </div>
       )}
@@ -145,9 +183,49 @@ function Header() {
             <p>{item.descricao}</p>
             <p>Quantidade: {item.quantidade}</p>
             <p>Categoria: {item.categoria}</p>
+            <div className="flex space-x-2 mt-2">
+              <button
+                className="bg-green-500 text-white p-2 rounded"
+                onClick={() => handleEditItem(index)}
+              >
+                Editar
+              </button>
+              <button
+                className="bg-red-500 text-white p-2 rounded"
+                onClick={() => handleDeleteItem(index)}
+              >
+                Excluir
+              </button>
+              <button
+                className="bg-blue-500 text-white p-2 rounded"
+                onClick={() => handleViewDetails(item)}
+              >
+                Detalhes
+              </button>
+            </div>
           </div>
         ))}
       </div>
+
+      {selectedItem && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <img src={selectedItem.imagem} alt={selectedItem.nome} className="w-full h-64 object-cover mb-4" />
+            <h2 className="text-xl font-bold mb-2">{selectedItem.nome}</h2>
+            <p>{selectedItem.descricao}</p>
+            <p className="mt-2">Quantidade: {selectedItem.quantidade}</p>
+            <p>Categoria: {selectedItem.categoria}</p>
+            <button
+              className="bg-red-500 text-white p-2 mt-4 rounded"
+              onClick={closeModal}
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
+
+      <ToastContainer />
     </>
   );
 }
