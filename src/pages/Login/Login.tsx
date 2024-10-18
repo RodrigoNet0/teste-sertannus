@@ -42,7 +42,7 @@ export default function Login() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             alt="profile "
-            src="https://th.bing.com/th/id/OIP.YbBndl3F_2S-2k8t83Bk1AHaHa?w=2000&h=2000&rs=1&pid=ImgDetMain"
+            src="https://download.logo.wine/logo/R_(programming_language)/R_(programming_language)-Logo.wine.png"
             className="mx-auto h-10 w-auto"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">

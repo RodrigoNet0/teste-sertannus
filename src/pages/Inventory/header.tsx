@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaEdit } from "react-icons/fa";
+import { RiDeleteBin5Fill } from "react-icons/ri";
+import { IoOpenOutline } from "react-icons/io5";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 interface Item {
   nome: string;
@@ -22,7 +26,7 @@ function Header() {
   });
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
-  const [searchTerm, setSearchTerm] = useState(""); // Adicionado estado para a pesquisa
+  const [searchTerm, setSearchTerm] = useState(""); 
 
   useEffect(() => {
     const storedItems = localStorage.getItem("items");
@@ -111,12 +115,10 @@ function Header() {
     setSelectedItem(null);
   };
 
-  // Função para lidar com a mudança no termo de pesquisa
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  // Filtrar os itens com base no termo de pesquisa
   const filteredItems = items.filter((item) =>
     item.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -127,7 +129,7 @@ function Header() {
         <nav className="flex justify-between items-center p-4 bg-gray-100">
           <div className="flex items-center">
             <img
-              src="https://th.bing.com/th/id/OIP.YbBndl3F_2S-2k8t83Bk1AHaHa?w=2000&h=2000&rs=1&pid=ImgDetMain"
+              src="https://download.logo.wine/logo/R_(programming_language)/R_(programming_language)-Logo.wine.png"
               alt="Workflow"
               className="h-8 w-auto"
             />
@@ -145,7 +147,7 @@ function Header() {
               className="text-gray-500 hover:text-gray-700 bg-gray-200 hover:bg-gray-300 border p-2 mb-2 w-60"
               onClick={handleAddItemClick}
             >
-              Adicionar Item
+             + Adicionar Item
             </button>
           </div>
         </nav>
@@ -217,19 +219,19 @@ function Header() {
                 className="bg-green-500 text-white p-2 rounded"
                 onClick={() => handleEditItem(index)}
               >
-                Editar
+                <FaEdit className="w-5 h-5" />
               </button>
               <button
                 className="bg-red-500 text-white p-2 rounded"
                 onClick={() => handleDeleteItem(index)}
               >
-                Excluir
+              <RiDeleteBin5Fill  className="w-5 h-5" />
               </button>
               <button
                 className="bg-blue-500 text-white p-2 rounded"
                 onClick={() => handleViewDetails(item)}
               >
-                Detalhes
+                <IoOpenOutline  className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -252,7 +254,7 @@ function Header() {
               className="bg-red-500 text-white p-2 mt-4 rounded"
               onClick={closeModal}
             >
-              Fechar
+             <IoMdCloseCircleOutline className="w-5 h-5" />
             </button>
           </div>
         </div>
