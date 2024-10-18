@@ -11,12 +11,9 @@ export default function Login() {
 
   const handleRegister = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-
     localStorage.setItem('userEmail', email);
     localStorage.setItem('userPassword', password);
-
     toast.success('Cadastro realizado com sucesso! Agora você pode fazer login.');
-
     setEmail('');
     setPassword('');
     setIsRegistering(false);

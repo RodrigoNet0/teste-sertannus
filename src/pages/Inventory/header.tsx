@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Item {
   nome: string;
@@ -14,17 +14,18 @@ function Header() {
   const [isAdding, setIsAdding] = useState(false);
   const [items, setItems] = useState<Item[]>([]);
   const [newItem, setNewItem] = useState<Item>({
-    nome: '',
-    descricao: '',
+    nome: "",
+    descricao: "",
     quantidade: 0,
-    categoria: '',
-    imagem: ''
+    categoria: "",
+    imagem: "",
   });
   const [isEditing, setIsEditing] = useState<number | null>(null);
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null); 
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [searchTerm, setSearchTerm] = useState(""); // Adicionado estado para a pesquisa
 
   useEffect(() => {
-    const storedItems = localStorage.getItem('items');
+    const storedItems = localStorage.getItem("items");
     if (storedItems) {
       setItems(JSON.parse(storedItems));
     }
@@ -38,7 +39,7 @@ function Header() {
     const { name, value } = e.target;
     setNewItem((prevItem) => ({
       ...prevItem,
-      [name]: name === 'quantidade' ? Number(value) : value
+      [name]: name === "quantidade" ? Number(value) : value,
     }));
   };
 
@@ -48,7 +49,7 @@ function Header() {
     reader.onloadend = () => {
       setNewItem((prevItem) => ({
         ...prevItem,
-        imagem: reader.result as string
+        imagem: reader.result as string,
       }));
     };
     if (file) {
@@ -57,8 +58,14 @@ function Header() {
   };
 
   const handleAddItem = () => {
-    if (!newItem.nome || !newItem.descricao || !newItem.quantidade || !newItem.categoria || !newItem.imagem) {
-      toast.error('Preencha todos os campos!');
+    if (
+      !newItem.nome ||
+      !newItem.descricao ||
+      !newItem.quantidade ||
+      !newItem.categoria ||
+      !newItem.imagem
+    ) {
+      toast.error("Preencha todos os campos!");
       return;
     }
 
@@ -73,13 +80,13 @@ function Header() {
       setItems(updatedItems);
     }
 
-    localStorage.setItem('items', JSON.stringify(items));
+    localStorage.setItem("items", JSON.stringify(items));
     setNewItem({
-      nome: '',
-      descricao: '',
+      nome: "",
+      descricao: "",
       quantidade: 0,
-      categoria: '',
-      imagem: ''
+      categoria: "",
+      imagem: "",
     });
     setIsAdding(false);
   };
@@ -93,16 +100,26 @@ function Header() {
   const handleDeleteItem = (index: number) => {
     const updatedItems = items.filter((_, i) => i !== index);
     setItems(updatedItems);
-    localStorage.setItem('items', JSON.stringify(updatedItems));
+    localStorage.setItem("items", JSON.stringify(updatedItems));
   };
 
   const handleViewDetails = (item: Item) => {
-    setSelectedItem(item); 
+    setSelectedItem(item);
   };
 
   const closeModal = () => {
-    setSelectedItem(null); 
+    setSelectedItem(null);
   };
+
+  // Função para lidar com a mudança no termo de pesquisa
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // Filtrar os itens com base no termo de pesquisa
+  const filteredItems = items.filter((item) =>
+    item.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -115,9 +132,17 @@ function Header() {
               className="h-8 w-auto"
             />
           </div>
+
           <div className="flex items-center space-x-4">
+            <input
+              type="search"
+              placeholder="Buscar..."
+              className="border p-2 mb-2 w-60"
+              value={searchTerm} 
+              onChange={handleSearchChange} 
+            />
             <button
-              className="text-gray-500 hover:text-gray-700"
+              className="text-gray-500 hover:text-gray-700 bg-gray-200 hover:bg-gray-300 border p-2 mb-2 w-60"
               onClick={handleAddItemClick}
             >
               Adicionar Item
@@ -170,15 +195,19 @@ function Header() {
             className="bg-blue-500 text-white p-2 rounded"
             onClick={handleAddItem}
           >
-            {isEditing !== null ? 'Atualizar Item' : 'Salvar Item'}
+            {isEditing !== null ? "Atualizar Item" : "Salvar Item"}
           </button>
         </div>
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-        {items.map((item, index) => (
+        {filteredItems.map((item, index) => (
           <div key={index} className="border p-4 rounded shadow">
-            <img src={item.imagem} alt={item.nome} className="w-full h-32 object-cover mb-2" />
+            <img
+              src={item.imagem}
+              alt={item.nome}
+              className="w-full h-32 object-cover mb-2"
+            />
             <h2 className="text-lg font-bold">{item.nome}</h2>
             <p>{item.descricao}</p>
             <p>Quantidade: {item.quantidade}</p>
@@ -210,7 +239,11 @@ function Header() {
       {selectedItem && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <img src={selectedItem.imagem} alt={selectedItem.nome} className="w-full h-64 object-cover mb-4" />
+            <img
+              src={selectedItem.imagem}
+              alt={selectedItem.nome}
+              className="w-full h-64 object-cover mb-4"
+            />
             <h2 className="text-xl font-bold mb-2">{selectedItem.nome}</h2>
             <p>{selectedItem.descricao}</p>
             <p className="mt-2">Quantidade: {selectedItem.quantidade}</p>
