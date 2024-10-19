@@ -154,7 +154,10 @@ function Header() {
       </header>
 
       {isAdding && (
-        <div className="p-4">
+        <div className="p-4 ">
+          <label className="block text-sm font-medium leading-6 text-gray-900">
+            Nome
+            </label>
           <input
             type="text"
             name="nome"
@@ -163,6 +166,9 @@ function Header() {
             onChange={handleInputChange}
             className="border p-2 mb-2 w-full"
           />
+          <label className="block text-sm font-medium leading-6 text-gray-900">
+            Descrição
+            </label>
           <input
             type="text"
             name="descricao"
@@ -171,6 +177,9 @@ function Header() {
             onChange={handleInputChange}
             className="border p-2 mb-2 w-full"
           />
+          <label className="block text-sm font-medium leading-6 text-gray-900">
+            Quantidade
+            </label>
           <input
             type="number"
             name="quantidade"
@@ -179,6 +188,9 @@ function Header() {
             onChange={handleInputChange}
             className="border p-2 mb-2 w-full"
           />
+          <label className="block text-sm font-medium leading-6 text-gray-900">
+            Categoria
+            </label>
           <input
             type="text"
             name="categoria"
@@ -187,6 +199,9 @@ function Header() {
             onChange={handleInputChange}
             className="border p-2 mb-2 w-full"
           />
+          <label className="block text-sm font-medium leading-6 text-gray-900">
+            Imagem
+            </label>
           <input
             type="file"
             name="imagem"
