@@ -23,7 +23,7 @@ Clone o repositório:
 
 bash
 Copiar código
-git clone https://github.com/seu-usuario/inventario-sertanus.git
+git clone https://github.com/RodrigoNet0/teste-sertannus
 Acesse o diretório do projeto:
 
 bash
