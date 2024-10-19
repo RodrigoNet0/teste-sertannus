@@ -1,50 +1,58 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Controle de Inventário - Teste Sertanus Tecnologia
+Este projeto é um aplicativo de controle de inventário desenvolvido como parte do processo seletivo para a empresa Sertanus Tecnologia. O app permite gerenciar itens de inventário através de um CRUD completo (criação, listagem, edição, busca e exclusão), além de uma funcionalidade de login com validação.
 
-Currently, two official plugins are available:
+### 📋 Funcionalidades
+Autenticação: Sistema de login com validação.
+CRUD de Itens:
+Criação de novos itens.
+Listagem de todos os itens cadastrados.
+Edição de itens existentes.
+Busca de itens por nome.
+Exclusão de itens.
+### 🚀 Tecnologias Utilizadas
+React com TypeScript: Utilizado para a construção da interface de usuário e lógica da aplicação.
+Vite: Ferramenta de build rápida para desenvolvimento.
+Tailwind CSS: Biblioteca de CSS para estilização da interface de forma rápida e customizável.
+Headless UI: Utilizada para componentes acessíveis e sem estilo, como modais e listas suspensas.
+Todo sistema é de uso único de sua máquina 'LocalStorage' para armazenar dados.
+### 📦 Instalação
+Siga os passos abaixo para rodar o projeto localmente:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Clone o repositório:
 
-## Expanding the ESLint configuration
+bash
+Copiar código
+git clone https://github.com/seu-usuario/inventario-sertanus.git
+Acesse o diretório do projeto:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+bash
+Copiar código
+cd inventario-sertanus
+Instale as dependências:
 
-- Configure the top-level `parserOptions` property like this:
+bash
+Copiar código
+npm install
+Inicie o servidor de desenvolvimento:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+bash
+Copiar código
+npm run dev
+O app estará disponível em http://localhost:3000.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### ⚙️ Como Usar
+Login: Após iniciar o app, você será direcionado para a tela de login. Insira suas credenciais para acessar o sistema.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Gerenciar Itens: Após o login, você poderá:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Criar novos itens através do botão "Adicionar Item".
+Listar todos os itens cadastrados na página principal.
+Editar ou excluir itens específicos.
+Utilizar a barra de busca para encontrar itens pelo nome.
+### 🛠️ Scripts Disponíveis
+npm run dev: Inicia o servidor de desenvolvimento.
+npm run build: Gera a build de produção.
+npm run lint: Verifica o código usando linters.
+### 📄 Licença
+Este projeto é de uso exclusivo para o processo seletivo da Sertanus Tecnologia.
